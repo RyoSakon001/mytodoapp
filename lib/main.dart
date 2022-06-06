@@ -16,7 +16,7 @@ class MyTodoApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: TodoListPage(),
+      home: MyAuthPage(),
     );
   }
 }
@@ -51,39 +51,38 @@ class _MyAuthPageState extends State<MyAuthPage> {
                 height: 8,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'パスワード（６文字以上）'),
+                decoration: InputDecoration(labelText: "パスワード（６文字以上）"),
+                obscureText: true,
                 onChanged: (String value) {
                   setState(() {
                     newUserPassword = value;
                   });
                 },
               ),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () async {
                   try {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     final UserCredential result =
                         await auth.createUserWithEmailAndPassword(
-                            email: newUserEmail, password: newUserPassword);
+                      email: newUserEmail,
+                      password: newUserPassword,
+                    );
                     final User user = result.user;
                     setState(() {
-                      infoText = "登録OK:${user.email}";
+                      infoText = "登録OK：${user.email}";
                     });
                   } catch (e) {
                     setState(() {
-                      infoText = "登録NG:${e.toString()}";
+                      infoText = "登録NG：${e.toString()}";
                     });
                   }
                 },
                 child: Text('ユーザー登録'),
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(infoText),
+              const SizedBox(height: 8),
+              Text(infoText)
             ],
           ),
         ),
